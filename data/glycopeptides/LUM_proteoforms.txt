@@ -1,0 +1,10 @@
+LUM_PF_1, 88-None 160-None 127-None 252-None 
+LUM_PF_2, 88-None 160-None 127-None 252-None 
+LUM_PF_3, 88-None 160-None 127-None 252-None 
+LUM_PF_4, 88-None 160-None 127-None 252-None 
+LUM_PF_5, 88-None 160-None 127-None 252-None 
+LUM_PF_6, 88-None 160-None 127-None 252-None 
+LUM_PF_7, 88-None 160-None 127-None 252-None 
+LUM_PF_8, 88-None 160-None 127-None 252-N8H5F1S0G0 
+LUM_PF_9, 88-None 160-None 127-None 252-N8H5F1S0G0 
+LUM_PF_10, 88-None 160-None 127-None 252-N8H5F1S0G0 

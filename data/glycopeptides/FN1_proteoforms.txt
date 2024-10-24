@@ -1,0 +1,10 @@
+FN1_PF_1, 542-None 528-None 1007-None 430-None 7-None 
+FN1_PF_2, 542-None 528-None 1007-None 430-None 7-N4H5F1S1G0 
+FN1_PF_3, 542-None 528-None 1007-None 430-None 7-None 
+FN1_PF_4, 542-None 528-None 1007-None 430-None 7-N4H5F1S1G0 
+FN1_PF_5, 542-None 528-None 1007-None 430-None 7-None 
+FN1_PF_6, 542-None 528-None 1007-None 430-None 7-N4H5F1S1G0 
+FN1_PF_7, 542-None 528-None 1007-None 430-None 7-None 
+FN1_PF_8, 542-None 528-None 1007-None 430-None 7-N4H5F1S1G0 
+FN1_PF_9, 542-None 528-None 1007-None 430-None 7-None 
+FN1_PF_10, 542-None 528-None 1007-None 430-None 7-N4H5F1S1G0 

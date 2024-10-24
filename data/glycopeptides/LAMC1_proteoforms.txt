@@ -1,0 +1,10 @@
+LAMC1_PF_1, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_2, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_3, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_4, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_5, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_6, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_7, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_8, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_9, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 
+LAMC1_PF_10, 1241-None 1205-None 576-None 1223-None 1022-None 650-None 1107-None 1395-None 

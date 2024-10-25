@@ -28,13 +28,13 @@ pip install pandas
 
 1. **Prepare the Input File**
 
-   Ensure you have a CSV file named `glycopeptides.csv` in the same directory as the script. The CSV file should contain the following columns:
+   The input CSV file should contain the following columns:
 
    - `protein`: The protein identifier.
    - `glycosylation_site`: The site of glycosylation.
-   - `glycan`: The glycan composition.
+   - `glycan`: The glycan. (Note: There are no requirements for glycan data format.)
 
-   Example CSV format:
+   Example CSV format: (`glycopeptides.csv` file used as example.)
 
    ```csv
    protein,peptide,glycosylation_site,glycan
@@ -44,7 +44,7 @@ pip install pandas
 
 2. **Run the Script**
 
-   Execute the script using Python:
+   Execute the script using Python: (`glycopeptides.csv` file used as example.)
 
    ```bash
    python glycopeptide_proteoform_generator_cmd.py -i glycopeptides.csv -l 10
@@ -67,17 +67,15 @@ pip install pandas
 
 - **NOTE**: If you set the limit above 10 million proteoforms, be prepared for high memory usage and significant processing time. Output text files for large limits can exceed 1GB in size, especially if glycopeptide data involves complex glycosylation patterns across many glycosylation sites.
 
-## Preparing Glycopeptides.csv Data
+## Preparing Glycopeptides.csv Data (Glycopeptide Data Example CSV File)
 
 **Prepare the Input File**
 
    Ensure `glycopeptides.csv` is in the same directory as the script. The CSV should have the following columns: `protein`, `glycosylation_site`, and `glycan`.
 
-   Note: Data source from GlyGen data repository. Details below on glycoproteomics data. Extracted list of 10K+ glycopeptides in site specific composition level of detail from the following csv file.
+   **Note**: Data source from GlyGen data repository. Details below on glycoproteomics data. Extracted list of 10K+ glycopeptides in site specific composition level of detail from the following csv file.
    
-   GLY_001046
-   
-   Human ccRCC Glycoproteomics (ML Ready)
+   GLY_001046 - Human ccRCC Glycoproteomics (ML Ready)
 
    The Human Glycosylation Sites (PDC) dataset contains intact glycopeptide abundances, biospecimen and ... 
    
@@ -85,7 +83,7 @@ pip install pandas
 
    URL: (https://data.glygen.org/GLY_001046)
 
-   Glycopeptide molecular composition was extracted from column names.
+   **Note**: Glycopeptide molecular composition was extracted from column names and used as the `glycopeptides.csv` example CSV file.
 
 # Reference Source Materials 
 

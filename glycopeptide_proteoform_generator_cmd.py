@@ -6,56 +6,52 @@ import argparse
 
 # Function to generate proteoforms for a given protein with a limit
 def generate_proteoforms_with_limit(protein_name, protein_data, limit=100):
-    # Generate combinations of glycosylation for each peptide
-    peptide_forms = []
-    for peptide, glyco_options in protein_data.items():
+    # Generate combinations of glycosylation for each protein
+    protein_forms = []
+    for protein, glyco_options in protein_data.items():
         combinations = list(itertools.product(*glyco_options))
-        peptide_forms.append(combinations)
+        protein_forms.append(combinations)
     
     # Generate all possible proteoforms by combining glycopeptides
-    proteoforms = itertools.product(*peptide_forms)
+    proteoforms = itertools.product(*protein_forms)
     
-    # Limit the number of proteoforms
-    limited_proteoforms = []
+    # Limit the number of proteoforms, ensure uniqueness with set
+    limited_proteoforms = set()
     count = 0
     for proteoform in proteoforms:
         if count >= limit:
             break
-        limited_proteoforms.append(proteoform)
+        limited_proteoforms.add(proteoform)  # Add to set to ensure uniqueness
         count += 1
     
-    return limited_proteoforms
+    return list(limited_proteoforms)  # Convert back to list for further processing
 
 # Main function to generate proteoforms from glycopeptides data
 def main(input_file, limit):
     # Read the CSV file
-    # csv should have protein, peptide, glycosylation_site, and glycan columns
-    # Notion of peptide and glycan defines level of detail for a proteoform
+    # CSV should have protein, glycosylation_site, and glycan columns
     df = pd.read_csv(input_file)
 
     # Initialize a dictionary to hold the formatted data
-    glycopeptides = defaultdict(lambda: defaultdict(lambda: {'glycosylation_site': None, 'glycans': set()}))
+    glycopeptides = defaultdict(lambda: defaultdict(set))
 
     # Process each row in the DataFrame
     for _, row in df.iterrows():
         protein = row['protein']
-        peptide = row['peptide']
         glycosylation_site = row['glycosylation_site']
         glycan = row['glycan']
         
-        glycopeptides[protein][peptide]['glycosylation_site'] = glycosylation_site
-        glycopeptides[protein][peptide]['glycans'].add(glycan)
+        glycopeptides[protein][glycosylation_site].add(glycan)
 
     # Convert the defaultdict to the desired format
     formatted_glycopeptides = [
         {
             'protein': protein,
-            'peptide': peptide,
-            'glycosylation_site': details['glycosylation_site'],
-            'glycans': list(details['glycans'])
+            'glycosylation_site': site,
+            'glycans': list(glycans)
         }
-        for protein, peptides in glycopeptides.items()
-        for peptide, details in peptides.items()
+        for protein, sites in glycopeptides.items()
+        for site, glycans in sites.items()
     ]
 
     # Group glycopeptides by protein
@@ -63,13 +59,13 @@ def main(input_file, limit):
 
     for glycopeptide in formatted_glycopeptides:
         protein = glycopeptide["protein"]
-        peptide = glycopeptide["peptide"]
         glycosylation_site = glycopeptide["glycosylation_site"]
         glycans = glycopeptide["glycans"]
         
         # Add an option for no glycosylation (None) along with the possible glycans
-        protein_dict[protein][peptide].append([(glycosylation_site, None)] + [(glycosylation_site, glycan) for glycan in glycans])
-    
+        glyco_combinations = [(glycosylation_site, None)] + [(glycosylation_site, glycan) for glycan in glycans]
+        protein_dict[protein][glycosylation_site].append(list(set(glyco_combinations)))
+
     # Create a directory for the proteoform output named after the input file (excluding extension)
     base_output_dir = os.path.join("data", os.path.splitext(os.path.basename(input_file))[0])
     os.makedirs(base_output_dir, exist_ok=True)
@@ -85,16 +81,15 @@ def main(input_file, limit):
             
             # Write results to a text file in the output directory
             with open(os.path.join(base_output_dir, f"{protein}_proteoforms.txt"), "w") as file:
-
                 for idx, proteoform in enumerate(proteoforms, 1):
                     file.write(f"{protein}_PF_{idx}, ")
-                    for peptide_combo in proteoform:
-                        for (glycosylation_site, glycan) in peptide_combo:
+                    for protein_combo in proteoform:
+                        for (glycosylation_site, glycan) in protein_combo:
                             file.write(f"{glycosylation_site}-{glycan} ")
                     file.write("\n")
+            
             # Write the count for this protein to the CSV file
-            with open(os.path.join(base_output_dir, f'00_proteoform_counts_{input_file}'), 'a') as counts_file:
-                counts_file.write(f'{protein},{total_proteoforms}\n')
+            counts_file.write(f'{protein},{total_proteoforms}\n')
 
             # Print summary to console
             print(f"{protein}: Total number of proteoforms: {total_proteoforms}")
@@ -112,12 +107,12 @@ def main(input_file, limit):
                 for line in lines:
                     if line.strip():  # Skip empty lines
                         parts = line.split(', ')[1:]  # Skip the proteoform identifier
-                        glycosylation_sites = set()
+                        glycosylation_pairs = set()
                         unique_parts = []
                         for part in parts[0].split(' '):  # Split the second column by space
-                            glycosylation_site = part.split('-')[0]  # Check only the number left of '-'
-                            if glycosylation_site not in glycosylation_sites:
-                                glycosylation_sites.add(glycosylation_site)
+                            glyco_pair = tuple(part.split('-'))  # Create a tuple of (site, glycan)
+                            if glyco_pair not in glycosylation_pairs:
+                                glycosylation_pairs.add(glyco_pair)
                                 unique_parts.append(part)
                         if unique_parts:
                             file.write(f"{line.split(', ')[0]}, {' '.join(unique_parts)}")
@@ -138,7 +133,7 @@ def main(input_file, limit):
                         if line.strip():  # Skip empty lines
                             proteoform_id, glycosylation_sites = line.split(', ', 1)
                             merged_file.write(f"{protein},{proteoform_id},{glycosylation_sites.strip()}\n")
-    
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate proteoforms from glycopeptides data.')

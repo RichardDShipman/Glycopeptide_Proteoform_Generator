@@ -1,6 +1,6 @@
 # Glycopeptide Proteoform Generator
 
-Richard Shipman -- 2024 
+Richard Shipman -- 25OCT2024 
 
 GitHub: https://github.com/RichardDShipman
 

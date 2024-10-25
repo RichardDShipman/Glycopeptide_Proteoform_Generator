@@ -108,7 +108,7 @@ GlyGen: Computational and Informatics Resources for Glycoscience, Glycobiology, 
 
 ## License
 
-This project is licensed under the GNU GENERAL PUBLIC LICENSE.
+This project is licensed under the GPL-3.0 license .
 
 
 

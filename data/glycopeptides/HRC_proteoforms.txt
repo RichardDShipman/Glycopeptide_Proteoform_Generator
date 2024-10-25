@@ -1,2 +1,0 @@
-HRC_PF_1, 41-N2H6F0S0G0 
-HRC_PF_2, 41-None 

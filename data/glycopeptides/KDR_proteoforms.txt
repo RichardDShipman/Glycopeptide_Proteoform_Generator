@@ -1,2 +1,0 @@
-KDR_PF_1, 96-None 
-KDR_PF_2, 96-N2H9F0S0G0 

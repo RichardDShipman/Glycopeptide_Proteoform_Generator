@@ -4,7 +4,7 @@ Richard Shipman -- 25OCT2024
 
 GitHub: https://github.com/RichardDShipman
 
-This repository contains a Python script for processing glycopeptides data to generate text files with proteoforms from combinations of glycopeptides across the glycosylation sites found for a protein. The script reads glycopeptides data from a CSV file, groups and formats the data, and generates proteoforms with a configurable limit on the number of combinations. Results are saved to text files and CSV files in the data folder.
+This repository hosts a Python script `glycopeptide_proteoform_generator_cmd.py` designed for processing glycopeptide data to generate proteoforms by exploring combinations of glycopeptides across the glycosylation sites associated with a given protein. The script reads glycopeptide data from a CSV file, formats the information, and generates proteoforms while allowing users to set a configurable limit on the number of proteoforms combinations per protein. This feature enables users to control the output’s complexity based on their requirements and hardware setup. The generated results are stored in both text and CSV file formats within the designated data folder.
 
 ## Features
 
@@ -34,66 +34,86 @@ pip install pandas
    - `glycosylation_site`: The site of glycosylation.
    - `glycan`: The glycan. (Note: There are no requirements for glycan data format.)
 
-   Example CSV format: (`glycopeptides.csv` file used as example.)
+   Example CSV format: (`human_proteoform_glycosylation_sites_gptwiki.csv` file used as example, data source below.)
 
-   ```csv
-   protein,peptide,glycosylation_site,glycan
-   ACAN,TVYVHAnQTGYPDPSSR,343,N5H5F1S0G0
-   ACAN,SnDSGVYR,132,N2H6F0S0G0
-   ```
+
+```csv
+"uniprotkb_canonical_ac","glycosylation_site_uniprotkb","amino_acid","saccharide","glycosylation_type","xref_key","xref_id","src_xref_key","src_xref_id","glycopeptide_id","composition","glycan_xref_key","glycan_xref_id","n_sequon","n_sequon_type","start_pos","end_pos","start_aa","end_aa","site_seq"
+"O00754-1","692","Asn","G28681TP","N-linked","protein_xref_gptwiki","O00754@N692","protein_xref_gptwiki","O00754@N692","PE001986","HexNAc(2)Hex(3)","glycan_xref_gptwiki","G28681TP","NFS","NXS","692","692","Asn","Asn","N"
+"O00754-1","930","Asn","G41247ZX","N-linked","protein_xref_gptwiki","O00754@N930","protein_xref_gptwiki","O00754@N930","PE002013","HexNAc(2)Hex(6)","glycan_xref_gptwiki","G41247ZX","NLS","NXS","930","930","Asn","Asn","N"
+"O14672-1","278","Asn","G80920RR","N-linked","protein_xref_gptwiki","O14672@N278","protein_xref_gptwiki","O14672@N278","PE001964","HexNAc(2)Hex(9)","glycan_xref_gptwiki","G80920RR","NTT","NXT","278","278","Asn","Asn","N"
+```
+
 
 2. **Run the Script**
 
-   Execute the script using Python: (`glycopeptides.csv` file used as example.)
+Execute the script using Python with a limit of 10 on the number of proteoforms generated per protein: 
 
    ```bash
-   python glycopeptide_proteoform_generator_cmd.py -i glycopeptides.csv -l 10
+   python glycopeptide_proteoform_generator_cmd.py -i human_proteoform_glycosylation_sites_gptwiki.csv -l 10
    ```
 
    - **-i**: input CSV file with glycopeptides.
    - **-l**: limit the number of proteoforms generated for each protein.
+   - **<filename>**: glycopeptide data. `human_proteoform_glycosylation_sites_gptwiki.csv` file used as example glycopeptide data.
 
-   The script will process the data, generate proteoforms, and write the results to the `data` folder and `00_proteoform_counts.csv` & `01_merged_proteoforms_glycopeptides.csv` files.
+   The script will process the data, generate proteoforms, and write the results to the `data` folder and `00_proteoform_counts_<filename>.csv` & `01_merged_proteoforms_<filename>.csv` files.
 
-3. **Output Files**
+3. **Output Folder and Files**
+
+A folder titled the name of the inputted CSV file containing the the following results:
 
    - **data**: Contains text files named `<protein>_proteoforms.txt` for each protein, detailing the proteoforms generated and their components.
-   - **00_proteoform_counts.csv**: Contains a CSV file with columns `protein` and `total_proteoforms`, listing the number of proteoforms generated for each protein.
-   - **01_merged_proteoforms_glycopeptides.csv**: Contains a CSV file with merged proteoform data.
+   - **<protein>_proteoforms.txt**: Unique proteoform ID for each proteoform combination in each `<protein>_proteoforms.txt` text file. Example: 
+
+```CSV
+O00754-1_PF_1, 692-G28681TP 930-G41247ZX 
+O00754-1_PF_2, 692-None 930-None 
+O00754-1_PF_3, 692-None 930-G41247ZX 
+O00754-1_PF_4, 692-G28681TP 930-None 
+```
+
+```txt
+<protein_id>_PF_<index>, <glycosylation_site>-<glycan> <glycosylation_site>-<glycan> ...
+```
+
+   - **<protein_id>**: This represents the unique identifier of the protein (e.g., O00754-1). This ID is sourced from the input data and corresponds to the protein for which the proteoforms are generated.
+   - **PF**: This indicates that the entry corresponds to a “Proteoform.”
+   - **<index>**: This is a sequential number that identifies the specific proteoform generated for the protein (e.g., 1, 2, 3, etc.).
+   - **<glycosylation_site>**: This refers to the specific site on the protein where glycosylation can occur. The site is represented by a number or label (e.g., 692, 930).
+   - **<glycan>**: This indicates the type of glycan attached at the corresponding glycosylation site. It can either be a specific identifier for a glycan (e.g., G28681TP, G41247ZX) or None, indicating that no glycan is present at that site.
+
+The following summary files are generated and placed alongside `<protein>_proteoforms.txt` containing total counts and merged proteoform results.
+
+   - **00_proteoform_counts_<filename>.csv**: Contains a CSV file with columns `protein` and `total_proteoforms`, listing the number of proteoforms generated for each protein.
+   - **01_merged_proteoforms_<filename>.csv**: Contains a CSV file with merged proteoform data.
 
 # Customization
 
-- **Proteoform Limit**: You can adjust the limit parameter in the generate_proteoforms_with_limit function to control the maximum number of proteoforms generated per protein. Setting an appropriate limit is important, as glycoproteins can generate millions of possible proteoforms, which may quickly exhaust computational resources and storage.
+- **Proteoform Limit**: You can adjust the limit parameter `-l` in the generate_proteoforms_with_limit function to control the maximum number of proteoforms generated per protein. Setting an appropriate limit is important, as glycoproteins can generate millions of possible proteoforms, which may quickly exhaust computational resources and storage.
 
 - **NOTE**: If you set the limit above 10 million proteoforms, be prepared for high memory usage and significant processing time. Output text files for large limits can exceed 1GB in size, especially if glycopeptide data involves complex glycosylation patterns across many glycosylation sites.
 
-## Preparing Glycopeptides.csv Data (Glycopeptide Data Example CSV File)
+## Preparing human_proteoform_glycosylation_sites_gptwiki.csv Data (Glycopeptide Data Example CSV File)
 
 **Prepare the Input File**
 
-   Ensure `glycopeptides.csv` is in the same directory as the script. The CSV should have the following columns: `protein`, `glycosylation_site`, and `glycan`.
+The CSV should have the following columns: `protein`, `glycosylation_site`, and `glycan`.
 
-   **Note**: Data source from GlyGen data repository. Details below on glycoproteomics data. Extracted list of 10K+ glycopeptides in site specific composition level of detail from the following csv file.
-   
-   GLY_001046 - Human ccRCC Glycoproteomics (ML Ready)
+Renamed the following columns in the CSV: `uniprotkb_canonical_ac` to `protein`, `glycosylation_site_uniprotkb` to `glycosylation_site`, and `saccharide` to `glycan`.
 
-   The Human Glycosylation Sites (PDC) dataset contains intact glycopeptide abundances, biospecimen and ... 
-   
-   Filename: human_proteoform_ml_ready_pdc_ccrcc.csv
+This step has been done already for the file `human_proteoform_glycosylation_sites_gptwiki.csv`.
 
-   URL: (https://data.glygen.org/GLY_001046)
+**Note**: Data source from GlyGen data repository. Details below on the provided as example glycoproteomics data. Follow URL link for more info.
 
-   **Note**: Glycopeptide molecular composition was extracted from column names and used as the `glycopeptides.csv` example CSV file.
+### Human Glycosylation Sites [GPTwiki]
+
+Human Glycosylation Sites [GPTwiki], provided by the Clinical and Translational Glycoscience Research Center (CTGRC), Georgetown University. The database contains list of human [taxid:9606] proteins with information on glycosylation sites and associated glycans from GPTwiki database [https://edwardslab.bmcb.georgetown.edu/gptwiki/Main_Page]. The listed protein (UniProtKB) accessions are part of the GlyGen UniProtKB canonical list (https://data.glygen.org/GLYDS000001). Filename: `human_proteoform_glycosylation_sites_gptwiki.csv`
 
 # Reference Source Materials 
 
 GlyGen: Computational and Informatics Resources for Glycoscience, Glycobiology, Volume 30, Issue 2, February 2020, Pages 72–73, https://doi.org/10.1093/glycob/cwz080
 
-Lih TM, Cho KC, Schnaubelt M, Hu Y, Zhang H. Integrated glycoproteomic characterization of clear cell renal cell carcinoma. Cell Rep. 2023 May 30;42(5):112409. doi: 10.1016/j.celrep.2023.112409. Epub 2023 Apr 18. PMID: 37074911; PMCID: PMC10247542.
-
 ## License
 
 This project is licensed under the GPL-3.0 license.
-
-
-

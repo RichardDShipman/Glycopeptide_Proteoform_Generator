@@ -1,6 +1,10 @@
 # Glycopeptide Proteoform Generator
 
-This repository contains a Python script for processing glycopeptides data to generate text files with proteoforms from combinations of glycopeptides across the glycosylation sites found for a protein. The script reads glycopeptides data from a CSV file, groups and formats the data, and generates proteoforms with a configurable limit on the number of combinations. Results are saved to text files and a CSV file.
+Richard Shipman -- 2024 
+
+GitHub: https://github.com/RichardDShipman
+
+This repository contains a Python script for processing glycopeptides data to generate text files with proteoforms from combinations of glycopeptides across the glycosylation sites found for a protein. The script reads glycopeptides data from a CSV file, groups and formats the data, and generates proteoforms with a configurable limit on the number of combinations. Results are saved to text files and CSV files in the data folder.
 
 ## Features
 
@@ -10,10 +14,9 @@ This repository contains a Python script for processing glycopeptides data to ge
 
 ## Requirements
 
-- Python 3.x
+- Python 3.7+
 - Pandas
 - itertools
-- OS
 
 You can install the required Python libraries using pip:
 
@@ -28,7 +31,6 @@ pip install pandas
    Ensure you have a CSV file named `glycopeptides.csv` in the same directory as the script. The CSV file should contain the following columns:
 
    - `protein`: The protein identifier.
-   - `peptide`: The peptide sequence.
    - `glycosylation_site`: The site of glycosylation.
    - `glycan`: The glycan composition.
 
@@ -48,7 +50,10 @@ pip install pandas
    python glycopeptide_proteoform_generator_cmd.py -i glycopeptides.csv -l 10
    ```
 
-   The script will process the data, generate proteoforms, and write the results to the `data` folder and `00_proteoform_counts.csv` file.
+   - **-i**: input CSV file with glycopeptides.
+   - **-l**: limit the number of proteoforms generated for each protein.
+
+   The script will process the data, generate proteoforms, and write the results to the `data` folder and `00_proteoform_counts.csv` & `01_merged_proteoforms_glycopeptides.csv` files.
 
 3. **Output Files**
 
@@ -56,43 +61,19 @@ pip install pandas
    - **00_proteoform_counts.csv**: Contains a CSV file with columns `protein` and `total_proteoforms`, listing the number of proteoforms generated for each protein.
    - **01_merged_proteoforms_glycopeptides.csv**: Contains a CSV file with merged proteoform data.
 
-## Code Overview
+# Customization
 
-### Import Libraries
+- **Proteoform Limit**: You can adjust the limit parameter in the generate_proteoforms_with_limit function to control the maximum number of proteoforms generated per protein. Setting an appropriate limit is important, as glycoproteins can generate millions of possible proteoforms, which may quickly exhaust computational resources and storage.
 
-```python
-import itertools
-import os
-import pandas as pd
-from collections import defaultdict
-```
-
-### Read and Process Data
-
-Read the CSV file and process it to group glycopeptides by protein and peptide.
-
-### Generate Proteoforms
-
-The `generate_proteoforms_with_limit` function generates proteoforms with a limit on the total number of combinations.
-
-- **-i**: input glycopeptides file.
-- **-l**: limit the number of proteoforms generated.
-
-### Output Results
-
-Write the proteoform counts to `00_proteoform_counts.csv` and detailed proteoforms to individual text files.
-
-## Customization
-
-- **Proteoform Limit**: You can adjust the `limit` parameter in the `generate_proteoforms_with_limit` function to control the maximum number of proteoforms generated per protein.
+- **NOTE**: If you set the limit above 10 million proteoforms, be prepared for high memory usage and significant processing time. Output text files for large limits can exceed 1GB in size, especially if glycopeptide data involves complex glycosylation patterns across many glycosylation sites.
 
 ## Preparing Glycopeptides.csv Data
 
-1. **Prepare the Input File**
+**Prepare the Input File**
 
-   Ensure `glycopeptides.csv` is in the same directory as the script. The CSV should have the following columns: `protein`, `peptide`, `glycosylation_site`, and `glycan`.
+   Ensure `glycopeptides.csv` is in the same directory as the script. The CSV should have the following columns: `protein`, `glycosylation_site`, and `glycan`.
 
-   Note: Data source from Glygen data repository. Details below on glycoproteomics data. Extracted list of glycopeptides from csv file.
+   Note: Data source from GlyGen data repository. Details below on glycoproteomics data. Extracted list of 10K+ glycopeptides in site specific composition level of detail from the following csv file.
    
    GLY_001046
    
@@ -102,13 +83,19 @@ Write the proteoform counts to `00_proteoform_counts.csv` and detailed proteofor
    
    Filename: human_proteoform_ml_ready_pdc_ccrcc.csv
 
+   URL: (https://data.glygen.org/GLY_001046)
+
+   Glycopeptide molecular composition was extracted from column names.
+
 # Reference Source Materials 
 
 GlyGen: Computational and Informatics Resources for Glycoscience, Glycobiology, Volume 30, Issue 2, February 2020, Pages 72–73, https://doi.org/10.1093/glycob/cwz080
 
+Lih TM, Cho KC, Schnaubelt M, Hu Y, Zhang H. Integrated glycoproteomic characterization of clear cell renal cell carcinoma. Cell Rep. 2023 May 30;42(5):112409. doi: 10.1016/j.celrep.2023.112409. Epub 2023 Apr 18. PMID: 37074911; PMCID: PMC10247542.
+
 ## License
 
-This project is licensed under the GPL-3.0 license .
+This project is licensed under the GPL-3.0 license.
 
 
 

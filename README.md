@@ -73,6 +73,8 @@ O00754-1_PF_3, 692-None 930-G41247ZX
 O00754-1_PF_4, 692-G28681TP 930-None 
 ```
 
+Explaination of proteoform format with details used in this script below.
+
 ```txt
 <protein_id>_PF_<index>, <glycosylation_site>-<glycan> <glycosylation_site>-<glycan> ...
 ```
@@ -85,10 +87,32 @@ O00754-1_PF_4, 692-G28681TP 930-None
 
 The following summary files are generated and placed alongside `<protein>_proteoforms.txt` containing total counts and merged proteoform results.
 
-   - **00_proteoform_counts_<filename>.csv**: Contains a CSV file with columns `protein` and `total_proteoforms`, listing the number of proteoforms generated for each protein.
-   - **01_merged_proteoforms_<filename>.csv**: Contains a CSV file with merged proteoform data.
+   - **00_proteoform_counts_<filename>.csv**: A CSV file with columns `protein` and `total_proteoforms`, listing the number of proteoforms generated for each protein.
 
-# Customization
+```CSV
+protein,total_proteoforms
+O00754-1,4
+O14672-1,2
+O43405-1,2
+O43852-1,4
+```
+
+   - **01_merged_proteoforms_<filename>.csv**: A CSV file with the columns `protein`, `proteoform_id`, and `glycosylation_sites` containing merged proteoform data.
+
+```CSV
+protein,proteoform_id,glycosylation_sites
+O00754-1,O00754-1_PF_1,692-G28681TP 930-G41247ZX
+O00754-1,O00754-1_PF_2,692-None 930-None
+O00754-1,O00754-1_PF_3,692-None 930-G41247ZX
+O00754-1,O00754-1_PF_4,692-G28681TP 930-None
+O14672-1,O14672-1_PF_1,278-None
+O14672-1,O14672-1_PF_2,278-G80920RR
+O43405-1,O43405-1_PF_1,100-G27126ED
+O43405-1,O43405-1_PF_2,100-None
+O43852-1,O43852-1_PF_1,131-G80475RE
+```
+
+# Customization (Parameters)
 
 - **Proteoform Limit**: You can adjust the limit parameter `-l` in the generate_proteoforms_with_limit function to control the maximum number of proteoforms generated per protein. Setting an appropriate limit is important, as glycoproteins can generate millions of possible proteoforms, which may quickly exhaust computational resources and storage.
 

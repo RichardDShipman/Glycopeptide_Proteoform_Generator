@@ -42,6 +42,8 @@ pip install pandas
 "O00754-1","692","Asn","G28681TP","N-linked","protein_xref_gptwiki","O00754@N692","protein_xref_gptwiki","O00754@N692","PE001986","HexNAc(2)Hex(3)","glycan_xref_gptwiki","G28681TP","NFS","NXS","692","692","Asn","Asn","N"
 "O00754-1","930","Asn","G41247ZX","N-linked","protein_xref_gptwiki","O00754@N930","protein_xref_gptwiki","O00754@N930","PE002013","HexNAc(2)Hex(6)","glycan_xref_gptwiki","G41247ZX","NLS","NXS","930","930","Asn","Asn","N"
 "O14672-1","278","Asn","G80920RR","N-linked","protein_xref_gptwiki","O14672@N278","protein_xref_gptwiki","O14672@N278","PE001964","HexNAc(2)Hex(9)","glycan_xref_gptwiki","G80920RR","NTT","NXT","278","278","Asn","Asn","N"
+"O43405-1","100","Asn","G27126ED","N-linked","protein_xref_gptwiki","O43405@N100","protein_xref_gptwiki","O43405@N100","PE002197","HexNAc(4)Hex(6)NeuAc(1)","glycan_xref_gptwiki","G27126ED","NYS","NXS","100","100","Asn","Asn","N"
+"O43852-1","131","Asn","G25987BV","N-linked","protein_xref_gptwiki","O43852@N131","protein_xref_gptwiki","O43852@N131","PE001250","HexNAc(4)Hex(3)dHex(1)","glycan_xref_gptwiki","G25987BV","NAT","NXT","131","131","Asn","Asn","N"
 ```
 
 

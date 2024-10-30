@@ -57,7 +57,7 @@ Execute the script using Python with a limit of 10 on the number of proteoforms 
 
    - **-i**: input CSV file with glycopeptides.
    - **-l**: limit the number of proteoforms generated for each protein.
-   - **<filename>**: glycopeptide data. `human_proteoform_glycosylation_sites_gptwiki.csv` file used as example glycopeptide data.
+   - **`<filename>`**: glycopeptide data. `human_proteoform_glycosylation_sites_gptwiki.csv` file used as example glycopeptide data.
 
    The script will process the data, generate proteoforms, and write the results to the `data` folder and `00_proteoform_counts_<filename>.csv` & `01_merged_proteoforms_<filename>.csv` files.
 

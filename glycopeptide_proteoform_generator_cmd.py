@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Oct 24 2024
+
+@author: richarddshipman
+"""
+
 import itertools
 import os
 import pandas as pd
@@ -135,10 +143,11 @@ def main(input_file, limit):
                             merged_file.write(f"{protein},{proteoform_id},{glycosylation_sites.strip()}\n")
 
 
+# This line checks if this script is being run as the main program
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate proteoforms from glycopeptides data.')
-    parser.add_argument('-i', '--input', required=True, help='Path to the input CSV file with glycopeptides data.')
-    parser.add_argument('-l', '--limit', type=int, default=100, help='Maximum number of proteoforms to generate per protein.')
+    parser.add_argument('-i', '--input', default='human_proteoform_glycosylation_sites_gptwiki.csv', help='Path to the input CSV file with glycopeptides data.')
+    parser.add_argument('-l', '--limit', type=int, default=10, help='Maximum number of proteoforms to generate per protein.')
 
     args = parser.parse_args()
     main(args.input, args.limit)

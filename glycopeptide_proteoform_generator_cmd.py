@@ -36,6 +36,26 @@ def generate_proteoforms_with_limit(protein_name, protein_data, limit=100):
 
 # Main function to generate proteoforms from glycopeptides data
 def main(input_file, limit):
+    """
+    Main function to generate glycopeptide proteoforms from an input CSV file.
+    Args:
+        input_file (str): Path to the input CSV file containing protein, glycosylation_site, and glycan columns.
+        limit (int): Limit on the number of proteoforms to generate per protein.
+    The function performs the following steps:
+    1. Reads the input CSV file into a pandas DataFrame.
+    2. Processes each row to create a dictionary of glycopeptides grouped by protein and glycosylation site.
+    3. Formats the glycopeptides into a list of dictionaries.
+    4. Groups glycopeptides by protein and generates combinations of glycosylation sites and glycans.
+    5. Creates an output directory named after the input file (excluding extension).
+    6. Writes the proteoform counts to a CSV file and individual proteoform details to text files.
+    7. Removes duplicate glycosylation sites from the proteoform text files.
+    8. Merges all proteoform text files into a single CSV file.
+    Outputs:
+        - A directory containing:
+            - A CSV file with proteoform counts for each protein.
+            - Text files with detailed proteoform information for each protein.
+            - A merged CSV file with all proteoform details.
+    """
     # Read the CSV file
     # CSV should have protein, glycosylation_site, and glycan columns
     df = pd.read_csv(input_file)

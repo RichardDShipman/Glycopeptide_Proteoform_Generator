@@ -188,7 +188,7 @@ def main(input_file, limit, protein_col, site_col, glycan_col):
         total_proteoforms = sum(len(generate_proteoforms_with_limit(protein, protein_data, limit)) for protein, protein_data in protein_dict.items())
         log_file.write(f"Total number of proteoforms generated: {total_proteoforms}\n")
 
-        log_file.write("\nProtein,Total Glycosylation Sites,Total Glycans,Total Proteoforms\n")
+        log_file.write("\nProtein,TotalGlycosylationSites,TotalGlycans,TotalProteoforms\n")
         summary_data = []
         for protein, protein_data in protein_dict.items():
             total_sites = len(protein_data)

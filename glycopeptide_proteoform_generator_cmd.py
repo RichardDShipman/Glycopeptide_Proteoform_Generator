@@ -11,6 +11,7 @@ import os
 import pandas as pd
 from collections import defaultdict
 import argparse
+from datetime import datetime
 
 # Function to generate proteoforms for a given protein with a limit
 def generate_proteoforms_with_limit(protein_name, protein_data, limit=100):
@@ -35,12 +36,15 @@ def generate_proteoforms_with_limit(protein_name, protein_data, limit=100):
     return list(limited_proteoforms)  # Convert back to list for further processing
 
 # Main function to generate proteoforms from glycopeptides data
-def main(input_file, limit):
+def main(input_file, limit, protein_col, site_col, glycan_col):
     """
     Main function to generate glycopeptide proteoforms from an input CSV file.
     Args:
         input_file (str): Path to the input CSV file containing protein, glycosylation_site, and glycan columns.
         limit (int): Limit on the number of proteoforms to generate per protein.
+        protein_col (str): Name of the protein column in the input CSV file.
+        site_col (str): Name of the glycosylation site column in the input CSV file.
+        glycan_col (str): Name of the glycan column in the input CSV file.
     The function performs the following steps:
     1. Reads the input CSV file into a pandas DataFrame.
     2. Processes each row to create a dictionary of glycopeptides grouped by protein and glycosylation site.
@@ -55,9 +59,9 @@ def main(input_file, limit):
             - A CSV file with proteoform counts for each protein.
             - Text files with detailed proteoform information for each protein.
             - A merged CSV file with all proteoform details.
+            - A log file with details of the input parameters and a report on counts.
     """
     # Read the CSV file
-    # CSV should have protein, glycosylation_site, and glycan columns
     df = pd.read_csv(input_file)
 
     # Initialize a dictionary to hold the formatted data
@@ -65,9 +69,9 @@ def main(input_file, limit):
 
     # Process each row in the DataFrame
     for _, row in df.iterrows():
-        protein = row['protein']
-        glycosylation_site = row['glycosylation_site']
-        glycan = row['glycan']
+        protein = row[protein_col]
+        glycosylation_site = row[site_col]
+        glycan = row[glycan_col]
         
         glycopeptides[protein][glycosylation_site].add(glycan)
 
@@ -162,12 +166,35 @@ def main(input_file, limit):
                             proteoform_id, glycosylation_sites = line.split(', ', 1)
                             merged_file.write(f"{protein},{proteoform_id},{glycosylation_sites.strip()}\n")
 
+    # Create a log file with details of the input parameters and a report on counts
+
+    log_file_path = os.path.join(base_output_dir, f"02_input_log_{os.path.basename(input_file)}.txt")
+    with open(log_file_path, 'w') as log_file:
+        # Write the title and run date/time
+        log_file.write("Glycopeptide Proteoform Generator\n")
+        log_file.write(f"Run Date and Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        log_file.write("\nInput Parameters:\n")
+        log_file.write(f"Input File: {input_file}\n")
+        log_file.write(f"Limit: {limit}\n")
+        log_file.write(f"Protein Column: {protein_col}\n")
+        log_file.write(f"Glycosylation Site Column: {site_col}\n")
+        log_file.write(f"Glycan Column: {glycan_col}\n")
+        log_file.write("\nProteoform Counts:\n")
+        for protein, protein_data in protein_dict.items():
+            proteoforms = generate_proteoforms_with_limit(protein, protein_data, limit)
+            total_proteoforms = len(proteoforms)
+            log_file.write(f"{protein}: {total_proteoforms} proteoforms\n")
+
+    print("Log file has been written to the output directory.")
 
 # This line checks if this script is being run as the main program
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate proteoforms from glycopeptides data.')
     parser.add_argument('-i', '--input', default='human_proteoform_glycosylation_sites_gptwiki.csv', help='Path to the input CSV file with glycopeptides data.')
     parser.add_argument('-l', '--limit', type=int, default=10, help='Maximum number of proteoforms to generate per protein.')
+    parser.add_argument('-p', '--protein', default='protein', help='Name of the protein column in the input CSV file.')
+    parser.add_argument('-s', '--site', default='glycosylation_site', help='Name of the glycosylation site column in the input CSV file.')
+    parser.add_argument('-g', '--glycan', default='glycan', help='Name of the glycan column in the input CSV file.')
 
     args = parser.parse_args()
-    main(args.input, args.limit)
+    main(args.input, args.limit, args.protein, args.site, args.glycan)

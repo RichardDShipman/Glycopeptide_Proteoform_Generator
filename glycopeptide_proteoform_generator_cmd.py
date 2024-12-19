@@ -179,11 +179,29 @@ def main(input_file, limit, protein_col, site_col, glycan_col):
         log_file.write(f"Protein Column: {protein_col}\n")
         log_file.write(f"Glycosylation Site Column: {site_col}\n")
         log_file.write(f"Glycan Column: {glycan_col}\n")
-        log_file.write("\nProteoform Counts:\n")
+        
+        # Write the summary section
+        log_file.write("\nSummary:\n")
+        total_proteins = len(protein_dict)
+        log_file.write(f"Total number of proteins: {total_proteins}\n")
+
+        total_proteoforms = sum(len(generate_proteoforms_with_limit(protein, protein_data, limit)) for protein, protein_data in protein_dict.items())
+        log_file.write(f"Total number of proteoforms generated: {total_proteoforms}\n")
+
+        log_file.write("\nProtein,Total Glycosylation Sites,Total Glycans,Total Proteoforms\n")
+        summary_data = []
         for protein, protein_data in protein_dict.items():
+            total_sites = len(protein_data)
+            total_glycans = sum(len(glyco_options) for glyco_options in protein_data.values())
             proteoforms = generate_proteoforms_with_limit(protein, protein_data, limit)
             total_proteoforms = len(proteoforms)
-            log_file.write(f"{protein}: {total_proteoforms} proteoforms\n")
+            summary_data.append((protein, total_sites, total_glycans, total_proteoforms))
+            log_file.write(f"{protein},{total_sites},{total_glycans},{total_proteoforms}\n")
+
+        # Optionally, save the summary data to a CSV file for easier data extraction
+        summary_df = pd.DataFrame(summary_data, columns=["Protein", "TotalGlycosylationSites", "TotalGlycans", "TotalProteoforms"])
+        summary_csv_path = os.path.join(base_output_dir, f"03_summary_{os.path.basename(input_file)}.csv")
+        summary_df.to_csv(summary_csv_path, index=False)
 
     print("Log file has been written to the output directory.")
 

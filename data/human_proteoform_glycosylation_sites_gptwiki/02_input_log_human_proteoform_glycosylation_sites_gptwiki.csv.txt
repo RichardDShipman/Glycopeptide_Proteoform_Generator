@@ -1,5 +1,5 @@
 Glycopeptide Proteoform Generator
-Run Date and Time: 2024-12-19 16:03:01
+Run Date and Time: 2024-12-19 16:14:20
 
 Input Parameters:
 Input File: human_proteoform_glycosylation_sites_gptwiki.csv
@@ -12,7 +12,7 @@ Summary:
 Total number of proteins: 140
 Total number of proteoforms generated: 887
 
-Protein,Total Glycosylation Sites,Total Glycans,Total Proteoforms
+Protein,TotalGlycosylationSites,TotalGlycans,TotalProteoforms
 O00754-1,2,2,4
 O14672-1,1,1,2
 O43405-1,1,1,2

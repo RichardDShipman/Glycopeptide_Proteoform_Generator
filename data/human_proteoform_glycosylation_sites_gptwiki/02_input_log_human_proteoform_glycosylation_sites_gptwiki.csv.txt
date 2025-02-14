@@ -1,5 +1,5 @@
 Glycopeptide Proteoform Generator
-Run Date and Time: 2025-01-31 16:57:55
+Run Date and Time: 2025-02-14 01:23:29
 
 Input Parameters:
 Input File: human_proteoform_glycosylation_sites_gptwiki.csv

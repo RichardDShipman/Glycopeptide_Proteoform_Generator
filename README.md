@@ -7,21 +7,29 @@ GitHub: https://github.com/RichardDShipman
 This repository hosts an optimized Python script, glycopeptide_proteoform_generator_cmd.py, designed for processing glycopeptide data to generate proteoforms by exploring combinations of glycopeptides across the glycosylation sites associated with a given protein. The script reads glycopeptide data from a CSV file, formats the information, and generates proteoforms while allowing users to set a configurable limit on the number of proteoform combinations per protein. This feature enables users to control output complexity based on their requirements and hardware setup. The generated results are stored in both text and CSV file formats within the designated data folder.
 
 ## Features
-	•	Read and Process Data:
+
+Read and Process Data:
 Reads glycopeptide data from a CSV file and processes it to create a structured dictionary of glycopeptides grouped by protein.
-	•	Generate Proteoforms:
+
+Generate Proteoforms:
 Generates combinations of glycosylation for peptides and creates all possible proteoforms, with a limit on the number of proteoforms generated per protein to manage large datasets.
-	•	Parallel Processing:
+
+Parallel Processing:
 Leverages Python’s ProcessPoolExecutor to process each protein concurrently for faster performance on multi-core systems.
-	•	Robust File Handling and Logging:
+
+Robust File Handling and Logging:
 Uses the pathlib module for safe file and path management, along with the built-in logging module for detailed runtime reporting and error handling.
-	•	Output Results:
+
+Output Results:
 Saves proteoform counts to a CSV file and detailed proteoform information to individual text files for each protein.
-	•	Merge and Summarize:
+
+Merge and Summarize:
 Merges individual proteoform text files into a single CSV file and generates log and summary files containing input parameters and proteoform counts.
 
 ##Requirements
+
 	•	Python 3.7+
+
 	•	Pandas
 
 You can install the required Python libraries using pip:
@@ -35,9 +43,12 @@ pip install pandas
 1.	Prepare the Input File
 
 The input CSV file should contain the following columns:
-	•	protein: The protein identifier.
-	•	glycosylation_site: The site of glycosylation.
-	•	glycan: The glycan. (There are no strict format requirements for glycan data.)
+
+protein: The protein identifier.
+
+glycosylation_site: The site of glycosylation.
+
+glycan: The glycan. (There are no strict format requirements for glycan data.)
 
 Example CSV format: (The human_proteoform_glycosylation_sites_gptwiki.csv file is used as an example.)
 
@@ -70,18 +81,21 @@ The script will process the data, generate proteoforms concurrently, and write t
 3.	Output Folder and Files
 
 A folder named after the input CSV file (without extension) is created under the data directory. This folder will contain:
-	•	<protein>_proteoforms.txt:
+
+protein_proteoforms.txt:
+
 For each protein, a text file with unique proteoform IDs and their corresponding glycosylation site–glycan combinations.
+
 Example:
 
 ```csv
 P00450-1_PF_1, 138-G10486CT:358-G10486CT:397-G06247RL:762-G27947YN
 P00450-1_PF_2, 138-G10486CT:358-G10486CT:397-G06247RL:762-G10486CT
 P00450-1_PF_3, 138-G10486CT:358-G10486CT:397-G06247RL:762-G47737VJ
-...
+
 ```
 
-#### 00_proteoform_counts_<filename>.csv:
+#### 00_proteoform_counts_filename.csv:
 
 A CSV file listing each protein and the total number of proteoforms generated.
 
@@ -91,9 +105,10 @@ O00754-1,4
 O14672-1,2
 O43405-1,2
 O43852-1,4
+
 ```
 
-#### 01_merged_proteoforms_<filename>.csv:
+#### 01_merged_proteoforms_filename.csv:
 
 A merged CSV file combining proteoform data from all proteins, with columns for protein, proteoform ID, and glycosylation site details.
 
@@ -103,11 +118,11 @@ O00754-1,O00754-1_PF_1,692-G28681TP:930-None
 O00754-1,O00754-1_PF_2,692-None:930-None
 O00754-1,O00754-1_PF_3,692-None:930-G41247ZX
 O00754-1,O00754-1_PF_4,692-G28681TP:930-G41247ZX
-...
+
 ```
 
 
-#### 02_input_log_<filename>.txt:
+#### 02_input_log_filename.txt:
 
 A log file detailing the input parameters and a summary of the processing run.
 
@@ -125,6 +140,7 @@ Glycan Column: glycan
 Summary:
 Total number of proteins: 140
 Total number of proteoforms generated: 887
+
 ```
 
 #### 03_summary_<filename>.csv:
@@ -136,7 +152,7 @@ O00754-1,2,2,4
 O14672-1,1,1,2
 O43405-1,1,1,2
 O43852-1,1,1,4
-...
+
 ```
 
 #### Customization (Parameters)

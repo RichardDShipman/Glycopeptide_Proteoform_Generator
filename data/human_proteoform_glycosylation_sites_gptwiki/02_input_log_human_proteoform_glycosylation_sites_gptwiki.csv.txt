@@ -1,13 +1,16 @@
 Glycopeptide Proteoform Generator
-Run Date and Time: 2025-02-14 01:23:29
+Run Date and Time: 2025-06-08 11:07:28
 
 Input Parameters:
-Input File: human_proteoform_glycosylation_sites_gptwiki.csv
-Limit: 10
-Protein Column: protein
-Glycosylation Site Column: glycosylation_site
-Glycan Column: glycan
+  Input File: human_proteoform_glycosylation_sites_gptwiki.csv
+  Limit: 1000
+  Protein Column: protein
+  Glycosylation Site Column: glycosylation_site
+  Glycan Column: glycan
 
-Summary:
-Total number of proteins: 140
-Total number of proteoforms generated: 887
+--- Processing Summary ---
+Total number of proteins processed: 140
+Total number of proteoforms generated: 18133
+Proteins that hit the proteoform limit (1000): 12/140
+  IDs: P00450-1, P00738-1, P01009-1, P01011-1, P01023-1, P02751-15, P02790-1, P04114-1, P04196-1, P08603-1, P10909-1, Q9BYF1-1
+Total script runtime: 1.24 seconds
